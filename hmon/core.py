@@ -19,7 +19,7 @@ if plat == "Windows":
 elif plat == "Linux":
     log = log_obj.log("/tmp/", script_name)
     log.info("platform: Linux")
-    pingArgs = ["ping", "-c", "1", "-W", "2"]
+    pingArgs = ["ping", "-c", "1", "-W", "1", "-w", "1"]
     arpArgs = ["arp", "-a"]
 
 else:
@@ -45,6 +45,12 @@ hosts = read_hosts("/etc/hosts")
 
 
 def ping_return_code(ip):
+    try:
+        hostname = hosts[ip]
+    except:
+        hostname = ip
+        log.warning("cannot figure out hostname for: %s" % ip)
+
     ping = subprocess.Popen(pingArgs + [ip],
                             stdout=subprocess.PIPE,
                             stderr=subprocess.PIPE)
@@ -54,14 +60,20 @@ def ping_return_code(ip):
     code = 1
     if re.search('1\sreceived,\s0.\spacket\sloss', out):
         code = 0
-        log.info("Ping success for IP: %s, hostname: %s. Code: %s" % (ip, hosts[ip], code))
+        log.info("Ping success for IP: %s, hostname: %s. Code: %s" % (ip, hostname, code))
     else:
         code = 1
-        log.warn("Ping not-success for IP: %s, hostname: %s. Code: %s " % (ip, hosts[ip], code))
+        log.warn("Ping not-success for IP: %s, hostname: %s. Code: %s " % (ip, hostname, code))
     return code
 
 
 def arp_return_code(ip):
+    try:
+        hostname = hosts[ip]
+    except:
+        hostname = ip
+        log.warning("cannot figure out hostname for: %s" % ip)
+
     arp = subprocess.Popen(arpArgs + [ip],
                            stdout=subprocess.PIPE,
                            stderr=subprocess.PIPE)
@@ -70,8 +82,8 @@ def arp_return_code(ip):
     if re.search('<incomplete>', out):
         code = 1
         log.warn(
-            "ARP resulted in incomplete ARP table entry for IP: %s, hostname: %s. Code: %s" % (ip, hosts[ip], code))
+            "ARP resulted in incomplete ARP table entry for IP: %s, hostname: %s. Code: %s" % (ip, hostname, code))
     else:
         code = 0
-        log.info("ARP call -> success for IP: %s, hostname: %s. Code: %s " % (ip, hosts[ip], code))
+        log.info("ARP call -> success for IP: %s, hostname: %s. Code: %s " % (ip, hostname, code))
     return code

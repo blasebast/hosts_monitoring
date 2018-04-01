@@ -1,35 +1,6 @@
 127.0.0.1       localhost
-127.0.1.1       sebson.ddns.net
-
-# The following lines are desirable for IPv6 capable hosts
-::1     ip6-localhost ip6-loopback
-fe00::0 ip6-localnet
-ff00::0 ip6-mcastprefix
-ff02::1 ip6-allnodes
-ff02::2 ip6-allrouters
-
-192.168.1.12    dell-zoom
-192.168.1.13    asus-pc asus sebson
-192.168.1.14    iphone
-192.168.1.15    fenix
-192.168.1.19    appletv
-192.168.1.20    google-chromecast chromecast
-192.168.1.23    samsung-led samsung-tv
-192.168.1.24    mycloud MyCloudEX2Ultra cloud wdcloud
-192.168.1.25    sebson-tinker  tinker sebson-tinker.ddns.net
-192.168.1.31    coffee-pc coffee
-192.168.1.32    rpi raspberry
-192.168.1.36    macbook osx
-192.168.1.37    ipad
-192.168.1.40    google-home gh
-192.168.1.41    tradfri
-192.168.1.43    honor
-192.168.1.44    iphone-old
-192.168.1.45    nexus5
-192.168.1.46    pixel
-192.168.1.60    asus-pc-wifi
-192.168.1.101   samsung-mama
-192.168.1.102   filip
-192.168.1.103   ipadjakis
-95.80.245.102   zoom-gw
-
+192.168.1.1   test-host1
+192.168.1.2   test-host2
+192.168.1.3   test-host3
+192.168.1.4   test-host4
+192.168.1.5   test-host5
