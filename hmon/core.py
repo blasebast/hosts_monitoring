@@ -15,12 +15,10 @@ if plat == "Windows":
     log = log_obj.log("c:/temp/", script_name)
     log.info("platform: Windows")
     pingArgs = ["ping", "-n", "1", "-l", "1", "-w", "100"]
-    arpArgs = ["arp", "-a"]
 elif plat == "Linux":
     log = log_obj.log("/tmp/", script_name)
     log.info("platform: Linux")
     pingArgs = ["ping", "-c", "1", "-W", "1", "-w", "1"]
-    arpArgs = ["arp", "-a"]
 
 else:
     raise ValueError("Unknown platform")
@@ -74,10 +72,12 @@ def arp_return_code(ip):
         hostname = ip
         log.warning("cannot figure out hostname for: %s" % ip)
 
-    arp = subprocess.Popen(arpArgs + [ip],
+    arp = subprocess.Popen(["/usr/sbin/arp", "-a", str(ip)],
                            stdout=subprocess.PIPE,
                            stderr=subprocess.PIPE)
+
     out, error = arp.communicate()
+    result = [out, error]
     code = 1
     if re.search('<incomplete>', out):
         code = 1
