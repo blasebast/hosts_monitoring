@@ -65,15 +65,17 @@ Configuration
 
 Configure via environment variables in ``.env`` file:
 
-| Variable | Default | Purpose |
-|----------|---------|---------|
-| ``HOSTS_FILE`` | ``/etc/hosts`` | Path to hosts file |
-| ``OUTPUT_DIR`` | ``/var/lib/node_exporter/textfile_collector`` | Output directory for metrics |
-| ``OUTPUT_FILE_BASE`` | ``node_network_hosts_up.prom`` | Output filename |
-| ``PING_TIMEOUT`` | ``1`` | Ping timeout in seconds |
-| ``LOG_DIR`` | ``/tmp`` | Log directory |
-| ``ARP_CMD`` | ``/usr/sbin/arp`` | Path to arp command |
-| ``LOG_LEVEL`` | ``INFO`` | Logging level |
+================== ========================================= ================================
+Variable           Default                                   Purpose
+================== ========================================= ================================
+``HOSTS_FILE``     ``/etc/hosts``                            Path to hosts file
+``OUTPUT_DIR``     ``/var/lib/node_exporter/...``           Output directory for metrics
+``OUTPUT_FILE_BASE`` ``node_network_hosts_up.prom``         Output filename
+``PING_TIMEOUT``   ``1``                                    Ping timeout in seconds
+``LOG_DIR``        ``/tmp``                                 Log directory
+``ARP_CMD``        ``/usr/sbin/arp``                        Path to arp command
+``LOG_LEVEL``      ``INFO``                                 Logging level
+================== ========================================= ================================
 
 Docker
 ------
