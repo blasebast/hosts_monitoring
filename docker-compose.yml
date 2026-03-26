@@ -1,0 +1,102 @@
+version: '3.9'
+
+services:
+  hosts-monitoring:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hosts-monitoring
+    restart: unless-stopped
+    
+    # Read-only host configuration
+    volumes:
+      - /etc/hosts:/etc/hosts:ro
+      - /var/lib/node_exporter/textfile_collector:/var/lib/node_exporter/textfile_collector
+      - ./logs:/tmp
+    
+    # Environment configuration
+    environment:
+      HOSTS_FILE: /etc/hosts
+      OUTPUT_DIR: /var/lib/node_exporter/textfile_collector
+      OUTPUT_FILE_BASE: node_network_hosts_up.prom
+      PING_TIMEOUT: "1"
+      LOG_DIR: /tmp
+      LOG_LEVEL: INFO
+      # ARP command path (may differ on some systems)
+      ARP_CMD: /usr/sbin/arp
+    
+    # Network access - use host network to access local IPs
+    # Uncomment if running on same host as monitored nodes
+    # network_mode: "host"
+    networks:
+      - monitoring
+    
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 128M
+        reservations:
+          cpus: '0.1'
+          memory: 64M
+    
+    # Run monitoring every minute via cron-like scheduling
+    # Note: docker-compose doesn't have native cron, use host cron or orchestrator
+    profiles:
+      - monitoring
+
+  # Alternative: use a cron service to run periodically
+  # This example runs the monitoring task every minute
+  hosts-monitoring-cron:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hosts-monitoring-cron
+    restart: unless-stopped
+    
+    volumes:
+      - /etc/hosts:/etc/hosts:ro
+      - /var/lib/node_exporter/textfile_collector:/var/lib/node_exporter/textfile_collector
+      - ./logs:/tmp
+    
+    environment:
+      HOSTS_FILE: /etc/hosts
+      OUTPUT_DIR: /var/lib/node_exporter/textfile_collector
+      OUTPUT_FILE_BASE: node_network_hosts_up.prom
+      PING_TIMEOUT: "1"
+      LOG_DIR: /tmp
+      LOG_LEVEL: INFO
+      ARP_CMD: /usr/sbin/arp
+    
+    networks:
+      - monitoring
+    
+    # Run via cron (requires hosts-monitoring binary in PATH)
+    entrypoint: |
+      sh -c 'while true; do
+        echo "[$(date)] Running hosts monitoring..."
+        python justrun.py
+        echo "[$(date)] Sleeping 60s..."
+        sleep 60
+      done'
+    
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 128M
+        reservations:
+          cpus: '0.1'
+          memory: 64M
+    
+    profiles:
+      - cron
+
+networks:
+  monitoring:
+    driver: bridge
+
+volumes:
+  logs:
+    driver: local

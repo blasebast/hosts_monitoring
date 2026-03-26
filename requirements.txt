@@ -1,3 +1,2 @@
-nose
-sphinx
-pyYaml
+smoothlogging>=1.0.0
+
