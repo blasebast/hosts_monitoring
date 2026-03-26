@@ -7,7 +7,7 @@ from .core import (
     write_metric_line,
 )
 
-__version__ = '0.2.0'
+__version__ = '0.2.1'
 __all__ = [
     'read_hosts',
     'ping_return_code',
