@@ -22,7 +22,7 @@ setup(
     packages=find_packages(exclude=('tests', 'docs')),
     entry_points={
         'console_scripts': [
-            'hosts-monitoring=hmon.__main__:main',
+            'hosts-monitoring=hmon.cli:main',
         ],
     },
     install_requires=[
