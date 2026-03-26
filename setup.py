@@ -12,7 +12,7 @@ with open('LICENSE') as f:
 
 setup(
     name='hosts_monitoring',
-    version='0.2.1',
+    version='0.2.2',
     description='Monitor LAN hosts via ping/arp, export Prometheus metrics',
     long_description=readme,
     author='Sebastian Blasiak',
